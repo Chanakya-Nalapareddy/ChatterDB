@@ -1,0 +1,615 @@
+model:
+  name: chatterdb_source
+  version: '0.1'
+  sql_dialect: duckdb
+  default_database: chatterdb
+  default_schema: source
+vocabulary:
+  synonyms:
+    customer:
+    - client
+    - buyer
+    invoice:
+    - bill
+    track:
+    - song
+    - audio track
+    artist:
+    - musician
+    - band
+    revenue:
+    - sales
+    - turnover
+tables:
+- name: source.Album
+  physical_schema: source
+  physical_name: Album
+  table_type: BASE TABLE
+  business_name: Album
+  description: ''
+  grain: ''
+  synonyms:
+  - album
+  primary_key:
+  - AlbumId
+  foreign_keys:
+  - column: ArtistId
+    references: source.Artist.ArtistId
+  columns:
+  - name: AlbumId
+    business_name: Album Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: Title
+    business_name: Title
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: ArtistId
+    business_name: Artist Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+- name: source.Artist
+  physical_schema: source
+  physical_name: Artist
+  table_type: BASE TABLE
+  business_name: Artist
+  description: ''
+  grain: ''
+  synonyms:
+  - artist
+  primary_key:
+  - ArtistId
+  foreign_keys: []
+  columns:
+  - name: ArtistId
+    business_name: Artist Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: Name
+    business_name: Name
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+- name: source.Customer
+  physical_schema: source
+  physical_name: Customer
+  table_type: BASE TABLE
+  business_name: Customer
+  description: ''
+  grain: ''
+  synonyms:
+  - customer
+  primary_key:
+  - CustomerId
+  foreign_keys:
+  - column: SupportRepId
+    references: source.Employee.EmployeeId
+    manual: true
+  columns:
+  - name: CustomerId
+    business_name: Customer Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: FirstName
+    business_name: First Name
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: LastName
+    business_name: Last Name
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: Company
+    business_name: Company
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: Address
+    business_name: Address
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: City
+    business_name: City
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: State
+    business_name: State
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: Country
+    business_name: Country
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: PostalCode
+    business_name: Postal Code
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: Phone
+    business_name: Phone
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: Fax
+    business_name: Fax
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: Email
+    business_name: Email
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: SupportRepId
+    business_name: Support Rep Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+- name: source.Employee
+  physical_schema: source
+  physical_name: Employee
+  table_type: BASE TABLE
+  business_name: Employee
+  description: ''
+  grain: ''
+  synonyms:
+  - employee
+  primary_key:
+  - EmployeeId
+  foreign_keys:
+  - column: ReportsTo
+    references: source.Employee.EmployeeId
+  columns:
+  - name: EmployeeId
+    business_name: Employee Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: LastName
+    business_name: Last Name
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: FirstName
+    business_name: First Name
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: Title
+    business_name: Title
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: ReportsTo
+    business_name: Reports To
+    data_type: BIGINT
+    nullable: true
+    role: dimension
+  - name: BirthDate
+    business_name: Birth Date
+    data_type: TIMESTAMP
+    nullable: true
+    role: date
+  - name: HireDate
+    business_name: Hire Date
+    data_type: TIMESTAMP
+    nullable: true
+    role: date
+  - name: Address
+    business_name: Address
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: City
+    business_name: City
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: State
+    business_name: State
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: Country
+    business_name: Country
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: PostalCode
+    business_name: Postal Code
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: Phone
+    business_name: Phone
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: Fax
+    business_name: Fax
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: Email
+    business_name: Email
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+- name: source.Genre
+  physical_schema: source
+  physical_name: Genre
+  table_type: BASE TABLE
+  business_name: Genre
+  description: ''
+  grain: ''
+  synonyms:
+  - genre
+  primary_key:
+  - GenreId
+  foreign_keys: []
+  columns:
+  - name: GenreId
+    business_name: Genre Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: Name
+    business_name: Name
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+- name: source.Invoice
+  physical_schema: source
+  physical_name: Invoice
+  table_type: BASE TABLE
+  business_name: Invoice
+  description: ''
+  grain: ''
+  synonyms:
+  - invoice
+  primary_key:
+  - InvoiceId
+  foreign_keys:
+  - column: CustomerId
+    references: source.Customer.CustomerId
+  columns:
+  - name: InvoiceId
+    business_name: Invoice Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: CustomerId
+    business_name: Customer Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: InvoiceDate
+    business_name: Invoice Date
+    data_type: TIMESTAMP
+    nullable: true
+    role: date
+  - name: BillingAddress
+    business_name: Billing Address
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: BillingCity
+    business_name: Billing City
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: BillingState
+    business_name: Billing State
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: BillingCountry
+    business_name: Billing Country
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: BillingPostalCode
+    business_name: Billing Postal Code
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: Total
+    business_name: Total
+    data_type: DOUBLE
+    nullable: true
+    role: measure
+- name: source.InvoiceLine
+  physical_schema: source
+  physical_name: InvoiceLine
+  table_type: BASE TABLE
+  business_name: Invoice Line
+  description: ''
+  grain: ''
+  synonyms:
+  - invoiceline
+  primary_key:
+  - InvoiceLineId
+  foreign_keys:
+  - column: InvoiceId
+    references: source.Invoice.InvoiceId
+  - column: TrackId
+    references: source.Track.TrackId
+  columns:
+  - name: InvoiceLineId
+    business_name: Invoice Line Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: InvoiceId
+    business_name: Invoice Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: TrackId
+    business_name: Track Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: UnitPrice
+    business_name: Unit Price
+    data_type: DOUBLE
+    nullable: true
+    role: measure
+  - name: Quantity
+    business_name: Quantity
+    data_type: BIGINT
+    nullable: true
+    role: measure
+- name: source.MediaType
+  physical_schema: source
+  physical_name: MediaType
+  table_type: BASE TABLE
+  business_name: Media Type
+  description: ''
+  grain: ''
+  synonyms:
+  - mediatype
+  primary_key:
+  - MediaTypeId
+  foreign_keys: []
+  columns:
+  - name: MediaTypeId
+    business_name: Media Type Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: Name
+    business_name: Name
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+- name: source.Playlist
+  physical_schema: source
+  physical_name: Playlist
+  table_type: BASE TABLE
+  business_name: Playlist
+  description: ''
+  grain: ''
+  synonyms:
+  - playlist
+  primary_key:
+  - PlaylistId
+  foreign_keys: []
+  columns:
+  - name: PlaylistId
+    business_name: Playlist Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: Name
+    business_name: Name
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+- name: source.PlaylistTrack
+  physical_schema: source
+  physical_name: PlaylistTrack
+  table_type: BASE TABLE
+  business_name: Playlist Track
+  description: ''
+  grain: ''
+  synonyms:
+  - playlisttrack
+  primary_key: []
+  foreign_keys:
+  - column: PlaylistId
+    references: source.Playlist.PlaylistId
+  - column: TrackId
+    references: source.Track.TrackId
+  columns:
+  - name: PlaylistId
+    business_name: Playlist Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: TrackId
+    business_name: Track Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+- name: source.Track
+  physical_schema: source
+  physical_name: Track
+  table_type: BASE TABLE
+  business_name: Track
+  description: ''
+  grain: ''
+  synonyms:
+  - track
+  primary_key:
+  - TrackId
+  foreign_keys:
+  - column: AlbumId
+    references: source.Album.AlbumId
+  - column: GenreId
+    references: source.Genre.GenreId
+  - column: MediaTypeId
+    references: source.MediaType.MediaTypeId
+  columns:
+  - name: TrackId
+    business_name: Track Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: Name
+    business_name: Name
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: AlbumId
+    business_name: Album Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: MediaTypeId
+    business_name: Media Type Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: GenreId
+    business_name: Genre Id
+    data_type: BIGINT
+    nullable: true
+    role: id
+  - name: Composer
+    business_name: Composer
+    data_type: VARCHAR
+    nullable: true
+    role: dimension
+  - name: Milliseconds
+    business_name: Milliseconds
+    data_type: BIGINT
+    nullable: true
+    role: measure
+  - name: Bytes
+    business_name: Bytes
+    data_type: BIGINT
+    nullable: true
+    role: measure
+  - name: UnitPrice
+    business_name: Unit Price
+    data_type: DOUBLE
+    nullable: true
+    role: measure
+relationships:
+- from: source.Album.ArtistId
+  to: source.Artist.ArtistId
+  join_type_default: left
+  relationship_type: many_to_one
+  fanout_risk: low
+  preferred: true
+- from: source.Employee.ReportsTo
+  to: source.Employee.EmployeeId
+  join_type_default: left
+  relationship_type: many_to_one
+  fanout_risk: low
+  preferred: true
+- from: source.Invoice.CustomerId
+  to: source.Customer.CustomerId
+  join_type_default: left
+  relationship_type: many_to_one
+  fanout_risk: low
+  preferred: true
+- from: source.InvoiceLine.InvoiceId
+  to: source.Invoice.InvoiceId
+  join_type_default: left
+  relationship_type: many_to_one
+  fanout_risk: medium
+  preferred: true
+- from: source.InvoiceLine.TrackId
+  to: source.Track.TrackId
+  join_type_default: left
+  relationship_type: many_to_one
+  fanout_risk: medium
+  preferred: true
+- from: source.PlaylistTrack.PlaylistId
+  to: source.Playlist.PlaylistId
+  join_type_default: left
+  relationship_type: many_to_one
+  fanout_risk: high
+  preferred: true
+- from: source.PlaylistTrack.TrackId
+  to: source.Track.TrackId
+  join_type_default: left
+  relationship_type: many_to_one
+  fanout_risk: high
+  preferred: true
+- from: source.Track.AlbumId
+  to: source.Album.AlbumId
+  join_type_default: left
+  relationship_type: many_to_one
+  fanout_risk: low
+  preferred: true
+- from: source.Track.GenreId
+  to: source.Genre.GenreId
+  join_type_default: left
+  relationship_type: many_to_one
+  fanout_risk: low
+  preferred: true
+- from: source.Track.MediaTypeId
+  to: source.MediaType.MediaTypeId
+  join_type_default: left
+  relationship_type: many_to_one
+  fanout_risk: low
+  preferred: true
+- from: source.Customer.SupportRepId
+  to: source.Employee.EmployeeId
+  join_type_default: left
+  relationship_type: many_to_one
+  fanout_risk: low
+  preferred: true
+  manual: true
+  notes: Not declared as an FK in exported constraints; common logical relationship (Customer support rep).
+metrics:
+- name: total_revenue
+  business_name: Total Revenue
+  description: Sum of invoice totals.
+  synonyms:
+  - revenue
+  - sales
+  - total sales
+  formula: SUM(source.Invoice.Total)
+  unit: currency
+- name: invoice_count
+  business_name: Invoice Count
+  description: Number of invoices.
+  synonyms:
+  - invoices
+  - bills
+  formula: COUNT(DISTINCT source.Invoice.InvoiceId)
+- name: tracks_sold
+  business_name: Tracks Sold
+  description: Total quantity of tracks sold from invoice lines.
+  synonyms:
+  - songs sold
+  - units sold
+  formula: SUM(source.InvoiceLine.Quantity)
+- name: avg_invoice_value
+  business_name: Average Invoice Value
+  description: Average invoice total.
+  synonyms:
+  - aiv
+  - average bill
+  - average invoice
+  formula: AVG(source.Invoice.Total)
+  unit: currency
+notes:
+- Primary keys and foreign keys populated from catalog.primary_keys and catalog.foreign_keys exports.
+- Relationships are generated directly from foreign key constraints; fanout_risk is a heuristic (verify for your warehouse
+  semantics).
+- 'Added manual relationship: Customer.SupportRepId -> Employee.EmployeeId (not enforced by FK constraints export).'

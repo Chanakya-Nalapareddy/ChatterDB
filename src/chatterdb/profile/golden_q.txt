@@ -1,0 +1,15 @@
+Step 1: Create a tiny “golden set” (5 questions)
+
+Use questions that exercise the join graph you now have:
+
+Total revenue by country
+
+Top 10 artists by revenue
+
+Revenue by genre
+
+Number of invoices by month
+
+Revenue by support rep (employee)
+
+These will validate: Invoice → Customer, InvoiceLine → Track → Album → Artist, Track → Genre, Customer → Employee (manual).
